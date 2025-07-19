@@ -1,0 +1,221 @@
+name: CI/CD Pipeline
+
+# 触发条件
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  release:
+    types: [ published ]
+
+# 环境变量
+env:
+  PYTHON_VERSION: '3.8'
+  PYTHON_VERSIONS: '3.8,3.9,3.10,3.11,3.12,3.13'
+
+jobs:
+  # 代码质量检查
+  lint:
+    name: 代码质量检查
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 设置Python环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .[dev]
+    
+    - name: 运行Black格式检查
+      run: black --check --diff src tests
+    
+    - name: 运行isort导入排序检查
+      run: isort --check-only --diff src tests
+    
+    - name: 运行Flake8代码风格检查
+      run: flake8 src tests
+    
+    - name: 运行MyPy类型检查
+      run: mypy src
+    
+    - name: 运行Bandit安全检查
+      run: bandit -r src
+    
+    - name: 运行pydocstyle文档检查
+      run: pydocstyle src
+
+  # 单元测试
+  test:
+    name: 单元测试
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        exclude:
+          # 排除一些组合以减少CI时间
+          - os: macos-latest
+            python-version: '3.9'
+          - os: macos-latest
+            python-version: '3.10'
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 设置Python环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: 安装系统依赖 (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
+    
+    - name: 安装Python依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .[dev]
+    
+    - name: 运行测试 (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        xvfb-run -a pytest tests/ -v --cov=src --cov-report=xml --cov-report=term-missing
+    
+    - name: 运行测试 (Windows/macOS)
+      if: matrix.os != 'ubuntu-latest'
+      run: |
+        pytest tests/ -v --cov=src --cov-report=xml --cov-report=term-missing
+      env:
+        QT_QPA_PLATFORM: offscreen
+    
+    - name: 上传覆盖率报告
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  # 构建测试
+  build:
+    name: 构建测试
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 设置Python环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: 安装构建依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+    
+    - name: 构建包
+      run: python -m build
+    
+    - name: 检查包
+      run: twine check dist/*
+    
+    - name: 上传构建产物
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+  # 安全扫描
+  security:
+    name: 安全扫描
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 运行Trivy漏洞扫描
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: 上传Trivy扫描结果
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  # 发布到PyPI (仅在发布时)
+  publish:
+    name: 发布到PyPI
+    runs-on: ubuntu-latest
+    needs: [lint, test, build]
+    if: github.event_name == 'release' && github.event.action == 'published'
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 设置Python环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    
+    - name: 下载构建产物
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: 发布到PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
+  # 创建GitHub Release (仅在标签推送时)
+  release:
+    name: 创建GitHub Release
+    runs-on: ubuntu-latest
+    needs: [lint, test, build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+    
+    - name: 下载构建产物
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: 创建Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="32" cy="32" r="30" fill="#1976d2" stroke="#0d47a1" stroke-width="2"/>
+  
+  <!-- 文档图标主体 -->
+  <rect x="18" y="12" width="24" height="32" rx="2" ry="2" fill="#ffffff" stroke="#e3f2fd" stroke-width="1"/>
+  
+  <!-- 文档折角 -->
+  <path d="M38 12 L38 18 L44 18 Z" fill="#bbdefb"/>
+  <path d="M38 12 L44 18 L42 18 L38 14 Z" fill="#90caf9"/>
+  
+  <!-- 文档内容线条 -->
+  <line x1="22" y1="20" x2="34" y2="20" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="24" x2="38" y2="24" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="28" x2="36" y2="28" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="32" x2="38" y2="32" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="36" x2="32" y2="36" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- AI 智能标识 -->
+  <circle cx="48" cy="20" r="8" fill="#ff5722" stroke="#ffffff" stroke-width="2"/>
+  <text x="48" y="25" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="8" font-weight="bold">AI</text>
+  
+  <!-- 时钟提醒标识 -->
+  <circle cx="16" cy="48" r="6" fill="#00bcd4" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="16" cy="48" r="1" fill="#ffffff"/>
+  <line x1="16" y1="48" x2="16" y2="44" stroke="#ffffff" stroke-width="1" stroke-linecap="round"/>
+  <line x1="16" y1="48" x2="19" y2="48" stroke="#ffffff" stroke-width="1" stroke-linecap="round"/>
+  
+  <!-- 牛角装饰 (代表"牛马") -->
+  <path d="M26 8 Q28 6 30 8 Q32 6 34 8 Q32 10 30 8 Q28 10 26 8" fill="#ffc107" stroke="#ff8f00" stroke-width="1"/>
+  
+  <!-- 光晕效果 -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#glow)"/>
+</svg>

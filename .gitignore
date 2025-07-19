@@ -1,0 +1,472 @@
+# 牛马日报助手 - Git忽略文件配置
+
+# ================================
+# Python 相关
+# ================================
+# 字节码文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C扩展
+*.so
+
+# 分发/打包
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# 单元测试/覆盖率报告
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# 虚拟环境
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+cython_debug/
+
+# ================================
+# IDE 和编辑器
+# ================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ================================
+# 操作系统
+# ================================
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# 应用程序特定文件
+# ================================
+# 环境变量文件 (包含敏感信息)
+.env
+.env.local
+.env.*.local
+
+# 配置文件 (可能包含敏感信息)
+config.json
+config.local.json
+
+# 数据文件
+data/
+backup/
+logs/
+*.log
+*.db
+*.sqlite
+*.sqlite3
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ================================
+# 开发工具
+# ================================
+# Tox
+.tox/
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+
+# Pre-commit
+.pre-commit-config.yaml.bak
+
+# Bandit
+.bandit
+
+# Safety
+safety-report.json
+
+# ================================
+# 构建和部署
+# ================================
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+.dockerignore
+
+# Kubernetes
+*.yaml.local
+*.yml.local
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# ================================
+# 文档
+# ================================
+# Sphinx
+docs/_build/
+docs/build/
+
+# ================================
+# 其他
+# ================================
+# 用户自定义
+.local/
+.user/
+custom/
+
+# 密钥和证书
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# 缓存
+.cache/
+*.cache
+
+# 锁文件
+*.lock
+
+# 进程ID文件
+*.pid
+
+# 套接字文件
+*.sock
+
+# 核心转储
+core
+core.*
+
+# 性能分析
+*.prof
+*.pstats
+
+# 内存分析
+*.memprof
+
+# 调试信息
+*.debug
+
+# 本地化
+*.mo
+*.pot
+
+# 媒体文件（如果不需要版本控制）
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+# *.mp4
+# *.avi
+# *.mov
+
+# 大文件
+*.bin
+*.exe
+*.dll
+*.so.*
+
+# 编辑器备份
+*~
+*.bak
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store?
+ehthumbs.db
+Thumbs.db
+
+# 网络文件
+.nfs*
+
+# 临时目录
+tmp/
+temp/
+
+# 用户特定的IDE设置
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/shelf/
+
+# 项目特定的忽略
+# 添加您项目特定的文件和目录
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# 日志文件
+logs/
+*.log
+*.log.*
+
+# 备份文件
+backup/
+*.bak
+*.backup
+*.old
+
+# 临时文件
+temp/
+tmp/
+*.tmp
+*.temp
+
+# 缓存文件
+cache/
+*.cache
+
+# 用户上传文件
+uploads/
+
+# 生成的文件
+generated/
+output/
+
+# 报告文件 (可能包含敏感信息)
+reports/
+*.pdf
+*.docx
+*.xlsx
+
+# ================================
+# 开发和测试
+# ================================
+# 测试文件
+test_output/
+.pytest_cache/
+
+# 性能分析
+*.prof
+
+# 调试文件
+*.pdb
+
+# ================================
+# 部署和打包
+# ================================
+# 打包文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# 安装文件
+*.exe
+*.msi
+*.deb
+*.rpm
+
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+
+# ================================
+# 文档和媒体
+# ================================
+# 编译的文档
+docs/_build/
+docs/build/
+
+# 媒体文件 (如果不需要版本控制)
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+# *.mp4
+# *.avi
+# *.mov
+
+# ================================
+# 其他
+# ================================
+# 密钥文件
+*.key
+*.pem
+*.p12
+*.pfx
+
+# 证书文件
+*.crt
+*.cer
+
+# 许可证文件 (如果是私有的)
+# LICENSE.private
+
+# 本地配置
+.local
+*.local
+
+# 用户特定文件
+.user
+*.user
+
+# 项目特定的忽略文件
+# 在这里添加项目特定的文件和目录
+
+# 示例：
+# my_secret_config.json
+# private_data/
+# local_scripts/

@@ -1,0 +1,36 @@
+# 包含项目根目录下的重要文件
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+include setup.py
+
+# 包含配置文件
+include config.json
+include .env.example
+
+# 包含文档
+recursive-include docs *.md *.rst *.txt
+
+# 包含资源文件
+recursive-include resources *.svg *.png *.ico *.jpg *.jpeg
+
+# 包含脚本文件
+recursive-include scripts *.bat *.sh
+
+# 排除不需要的文件
+exclude .env
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * Thumbs.db
+recursive-exclude .git *
+recursive-exclude venv *
+recursive-exclude .venv *
+recursive-exclude build *
+recursive-exclude dist *
+recursive-exclude *.egg-info *
+recursive-exclude logs *.log
+recursive-exclude backup *
+recursive-exclude data *

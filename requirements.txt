@@ -1,0 +1,17 @@
+# 牛马日报助手 - 项目依赖包
+# Python 3.7+ required
+
+# GUI框架
+PyQt5>=5.15.0
+
+# HTTP请求库
+requests>=2.25.0
+
+# OpenAI API客户端
+openai>=1.0.0
+
+# 环境变量管理
+python-dotenv>=0.19.0
+
+# 系统进程管理
+psutil>=5.8.0

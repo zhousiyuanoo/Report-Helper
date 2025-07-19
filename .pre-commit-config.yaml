@@ -1,0 +1,99 @@
+# Pre-commit 配置文件
+# 用于在提交代码前自动运行代码质量检查工具
+
+repos:
+  # Python 代码格式化
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=88]
+
+  # 导入排序
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile, black, --line-length, "88"]
+
+  # 代码风格检查
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503]
+
+  # 类型检查
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
+
+  # 通用检查
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # 检查文件大小
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      # 检查合并冲突标记
+      - id: check-merge-conflict
+      # 检查 YAML 语法
+      - id: check-yaml
+      # 检查 JSON 语法
+      - id: check-json
+      # 检查 TOML 语法
+      - id: check-toml
+      # 检查 XML 语法
+      - id: check-xml
+      # 检查可执行文件有 shebang
+      - id: check-executables-have-shebangs
+      # 检查文件名大小写冲突
+      - id: check-case-conflict
+      # 检查文档字符串是否为第一行
+      - id: check-docstring-first
+      # 移除文件末尾空白
+      - id: trailing-whitespace
+      # 确保文件以换行符结尾
+      - id: end-of-file-fixer
+      # 修复混合行结束符
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  # Python 安全检查
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [-r, src/]
+        exclude: tests/
+
+  # 文档字符串检查
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args: [--convention=google]
+        additional_dependencies: [toml]
+
+# 全局配置
+default_language_version:
+  python: python3.8
+
+# 排除的文件和目录
+exclude: |
+  (?x)^(
+      venv/.*|
+      .venv/.*|
+      build/.*|
+      dist/.*|
+      .*\.egg-info/.*|
+      __pycache__/.*|
+      .git/.*|
+      logs/.*|
+      backup/.*|
+      data/.*
+  )$
